@@ -8,7 +8,7 @@ def gen_occupations(dimensions):
     # print(occupations)
     return occupations
 
-def gen_moves(occup, edge_matrix, node_colors):
+def gen_moves(occup, edge_mapping, node_colors):
     move_count = 0
     move_list = []
     node_colors.append('finish')
@@ -16,63 +16,79 @@ def gen_moves(occup, edge_matrix, node_colors):
     # print_matrix(edge_matrix)
     for i in range(len(occup)):
         for j in range(len(occup)):
-            if i == j:
+            if occup[i] == occup[j]:
                 continue
-
-            ##The different positions must have exactly one similar node between them
             common_elements = set(occup[i]) & set(occup[j])
-            if len(common_elements) != 1:
-                # print(str(occup[i]) + " " + str(occup[j]) + " disqualified because they have no common elements.")
+            if common_elements == set():
                 continue
             shared = common_elements.pop()
+            if shared == len(node_colors):
+                continue
+            a, b = occup[i]
+            c, d = occup[j]
 
-            # The different nodes between the occupations must have an edge between them.
-            # i.e., matrix[a][b] must be nonzero because this is a directed graph.
-            origin = 0
-            final = 0
-            if occup[i][0] == occup[i][1]:
-                origin = occup[i][0]
-            elif occup[j][0] == occup[j][1]:
-                final = occup[j][0]
+            if a == shared and b == shared:
+                fr = shared
             else:
-                origin = next(node for node in occup[i] if node != shared)
-                final = next(node for node in occup[j] if node != shared)
-            move_color = edge_matrix[origin -1 ][final - 1 ]
-            if move_color == 0:
-                # print(str(occup[i]) + " " + str(occup[j]) + " disqualified because there is no directed edge between the changed nodes.")
-                continue
-            # print("for " + str(occup[i]) + " and " + str(occup[j]) + " the change is " + str(origin) + " --> " + str(final))
+                for elm in occup[i]:
+                    if elm != shared:
+                        fr = elm
 
-            # The shared node between occupations must be of the same color as the edge that exists.
-            shared_color = node_colors[shared - 1]  # must be -1
-            # print(str(shared) + " color: " + shared_color)
-            if str(move_color) != str(shared_color) and shared_color != 'finish':
-                # print(str(occup[i]) + " " + str(occup[j]) + " disqualified because the edge is the wrong color.")
-                # print("The edge is " + str(move_color) + ", whereas the node is " + str(shared_color))
+            if c == shared and d == shared:
+                to = shared
+            else:
+                for elm in occup[j]:
+                    if elm != shared:
+                        to = elm
+
+
+            move_color = edge_mapping.get((str(fr), str(to)), None)
+            # print(str(fr), str(to),  move_color)
+            if fr == len(node_colors):
                 continue
+            if move_color == None:
+                print("No edge from " + str(fr) + " to " + str(to) )
+                continue
+
+            node_color = node_colors[shared - 1]
+            # print("Node " + str(shared) + ": " + node_color)
+
+            if move_color != node_color:
+                print("The edge from " + str(fr) + " to " + str(to) + " is color " + move_color + " when it should be " + node_color)
+                continue
+
             move_count += 1
             move_list.append([occup[i], occup[j]])
-    # print("total valid moves = " + str(move_count))
-    # print(move_list)
+    print("total valid moves = " + str(move_count))
+    print(move_list)
     return move_list
 
 ##ignoring 0, because all nodes start at 1
-def create_edge_matrix(dimensions, edge_list):
-    node_num = int(dimensions[0])
-    edge_color_matrix = []
-    for i in range(0, node_num + 1):
-        row = []
-        for j in range(0, node_num + 1):
-            row.append(0)
-        edge_color_matrix.append(row)
-    for edge in edge_list:
-        fr = int(edge[0])
-        to = int(edge[1])
-        color = edge[2]
-        edge_color_matrix[fr - 1][to - 1] = color
+# def create_edge_matrix(dimensions, edge_list):
+#     node_num = int(dimensions[0])
+#     edge_color_matrix = []
+#     for i in range(0, node_num):
+#         row = []
+#         for j in range(0, node_num):
+#             row.append(0)
+#         edge_color_matrix.append(row)
+#     for edge in edge_list:
+#         fr = int(edge[0])
+#         to = int(edge[1])
+#         color = edge[2]
+#         edge_color_matrix[fr - 1][to - 1] = color
+#
+#     # print_matrix(edge_color_matrix)
+#     return edge_color_matrix
 
-    # print_matrix(edge_color_matrix)
-    return edge_color_matrix
+def create_edge_mapping(edge_list):
+    mapping = {}
+    for edge in edge_list:
+        pair = (edge[0], edge[1])
+        letter = edge[2]
+        mapping[pair] = letter
+    return mapping
+
 
 
 def print_matrix(matrix):
