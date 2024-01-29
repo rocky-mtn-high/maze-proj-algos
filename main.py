@@ -2,43 +2,39 @@ import networkx as nx
 import sys
 import fileinput
 
+from occupations import gen_moves, gen_occupations, create_edge_matrix, print_matrix
+from file_handling import file_import, test_import, process_input
+from graph import create_graph, bfs_shortest_path
+
 def print_hi(name):
     print(f'Hi, {name}')
 
-def file_import():
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <path_to_input_file>")
-        sys.exit(1)
-
-    input_file_path = sys.argv[1]
-
-    try:
-        # Use fileinput.input() to handle both stdin and file input
-        with fileinput.input(files=(input_file_path,)) as f:
-            input_lines = f.readlines()
-            process_input(input_lines)
-
-    except FileNotFoundError:
-        print(f"Error: File '{input_file_path}' not found.")
-        sys.exit(1)
-
-def process_input(input_lines):
-    return 0
-
-def gen_occupations(nodes):
-    return 0
-
-def gen_moves(occup, edge_matrix, node_colors):
-    return 0
-
-def create_graph(occup, moves):
-    G = nx.Graph()
-
-    return 0
-
-
 def main():
-    file_import()
+    print("Hellow there") ##test
+    # file_info = file_import() ##this is where we will import the command line file
+
+    ##where file_info is a tuple containing dimensions, node_colors, start_positions, and edges
+    file_info = test_import()
+    # print(file_info)
+
+    edge_color_matrix = create_edge_matrix(file_info[0], file_info[3])
+    # print_matrix(edge_color_matrix)
+
+    occupations = gen_occupations(file_info[0])
+
+    moves = gen_moves(occupations, edge_color_matrix, file_info[1])
+
+    g = create_graph(moves)
+
+    ##set finish condition
+    start = str(file_info[2][0]) + " " + str(file_info[2][1])
+    target_digit = 8
+    shortest_path = bfs_shortest_path(g, start, target_digit)
+    #print(shortest_path)
+
+
+
+
 
 
 # Press the green button in the gutter to run the script.
