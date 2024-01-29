@@ -10,7 +10,6 @@ def print_hi(name):
     print(f'Hi, {name}')
 
 def main():
-    print("Hellow there") ##test
     # file_info = file_import() ##this is where we will import the command line file
 
     ##where file_info is a tuple containing dimensions, node_colors, start_positions, and edges
@@ -30,7 +29,11 @@ def main():
     start = str(file_info[2][0]) + " " + str(file_info[2][1])
     target_digit = 8
     shortest_path = bfs_shortest_path(g, start, target_digit)
-    #print(shortest_path)
+    if shortest_path == []:
+        print("NO PATH")
+    else:
+        print(shortest_path)
+
 
 
 
