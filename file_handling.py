@@ -12,7 +12,7 @@ def file_import():
     try:
         # Use fileinput.input() to handle both stdin and file input
         with fileinput.input(files=(input_file_path,)) as f:
-            input_lines = f.readlines()
+            input_lines = f.readline()
             return process_input(input_lines)
 
     except FileNotFoundError:
