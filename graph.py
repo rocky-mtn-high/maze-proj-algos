@@ -34,7 +34,7 @@ def bfs_shortest_path(graph, start, target_digit):
 
 def convert_to_moves(path):
     moves = ""
-    print(path)
+    # print(path)
     for i in range(len(path) - 1):
         if i == 0:
             next = path[0].split()
@@ -48,7 +48,7 @@ def convert_to_moves(path):
         else:
             print("This should never happen.")
             return 0
-    print(moves)
+    # print(moves)
     return moves
 
 
@@ -66,6 +66,6 @@ def path_process(paths, start):
     shortest_paths = [path for path in paths if len(path) == shortest_length]
     shortest_moves = [convert_to_moves(path) for path in shortest_paths]
     ##choose first alphabeticaly for shortest_move
-    return(shortest_moves)
-    # sorted_codes = sorted(shortest_moves, key=custom_sort)
-    # return sorted_codes[0]
+    # return(shortest_moves)
+    sorted_codes = sorted(shortest_moves, key=custom_sort)
+    return sorted_codes[0]
