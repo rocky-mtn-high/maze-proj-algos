@@ -47,20 +47,20 @@ def gen_moves(occup, edge_mapping, node_colors):
             if fr == len(node_colors):
                 continue
             if move_color == None:
-                print("No edge from " + str(fr) + " to " + str(to) )
+                # print("No edge from " + str(fr) + " to " + str(to) )
                 continue
 
             node_color = node_colors[shared - 1]
             # print("Node " + str(shared) + ": " + node_color)
 
             if move_color != node_color:
-                print("The edge from " + str(fr) + " to " + str(to) + " is color " + move_color + " when it should be " + node_color)
+                # print("The edge from " + str(fr) + " to " + str(to) + " is color " + move_color + " when it should be " + node_color)
                 continue
 
             move_count += 1
             move_list.append([occup[i], occup[j]])
-    print("total valid moves = " + str(move_count))
-    print(move_list)
+    # print("total valid moves = " + str(move_count))
+    # print(move_list)
     return move_list
 
 ##ignoring 0, because all nodes start at 1

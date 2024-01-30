@@ -32,26 +32,34 @@ def bfs_shortest_path(graph, start, target_digit):
 
     return paths
 
-def convert_to_moves(path):
+def convert_to_moves(path, start):
+    r = start.split()[0]
+    l = start.split()[1]
     moves = []
+    # print(path)
     for i in range(len(path) - 1):
-        current_point = path[i].split()
-        next_point = path[i + 1].split()
-        if current_point[0] == next_point[0] or current_point[0] == next_point[1]:
-            moves.append(str(next_point[1]) + "L")
-        elif current_point[1] == next_point[1] or current_point[1] == next_point[0] :
-            moves.append(str(next_point[0]) + "R")
+        current = path[i].split()
+        next = path[i + 1].split()
+        ##align them
+        if next[0] != current[0] and next[0] != next[1]:
+            next.reverse()
+        if current[0] == next[0]:
+            moves.append( "L" + str(next[1]))
+        elif current[1] == next[1]:
+            moves.append("R" + str(next[0]))
 
-    last_move = path[-1].split()
-    moves.append(last_move)
+    # last_move = path[-1].split()
+    # moves.append(last_move)
 
-    return moves
+    move_string = ""
+    for move in moves:
+        move_string = move_string + move
+    return move_string
 
 
-def path_process(paths):
+def path_process(paths, start):
     shortest_length = min(len(path) for path in paths)
     shortest_paths = [path for path in paths if len(path) == shortest_length]
-    shortest_moves = [convert_to_moves(path) for path in shortest_paths]
-
-
-    return shortest_moves
+    shortest_moves = [convert_to_moves(path, start) for path in shortest_paths]
+    ##choose first alphabeticaly for shortest_move
+    return min(shortest_moves)
