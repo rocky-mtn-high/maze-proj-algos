@@ -16,7 +16,7 @@ def file_import():
         sys.exit(1)
 
 def test_import():
-    with open("./test0.txt", "r") as file:
+    with open("./test2.txt", "r") as file:
         input_lines = []
         for line in file:
             input_lines.append(line)

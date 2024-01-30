@@ -36,17 +36,23 @@ def convert_to_moves(path, start):
     r = start.split()[0]
     l = start.split()[1]
     moves = []
-    # print(path)
+    print(path)
     for i in range(len(path) - 1):
-        current = path[i].split()
+        if i == 0:
+            next = path[i].split()
+        current = next
         next = path[i + 1].split()
         ##align them
-        if next[0] != current[0] and next[0] != next[1]:
+        if (next[0] != current[0] and next[1] != current[1]) and next[0] != next[1] :
             next.reverse()
+
+
         if current[0] == next[0]:
             moves.append( "L" + str(next[1]))
+            # print("L moves from "+ current[1] + " to " + str(next[1]))
         elif current[1] == next[1]:
             moves.append("R" + str(next[0]))
+            # print("R moves from " + current[0] + " to " + str(next[0]))
 
     # last_move = path[-1].split()
     # moves.append(last_move)
@@ -55,6 +61,9 @@ def convert_to_moves(path, start):
     for move in moves:
         move_string = move_string + move
     return move_string
+    print(moves)
+    return moves
+
 
 
 def path_process(paths, start):
