@@ -39,7 +39,7 @@ def main():
         print("NO PATH")
     else:
         best = path_process(paths, start)
-        # print(best)
+        print(best)
 
 
 
