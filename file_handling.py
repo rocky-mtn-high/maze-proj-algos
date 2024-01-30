@@ -11,8 +11,10 @@ def file_import():
 
     try:
         # Use fileinput.input() to handle both stdin and file input
+        input_lines = []
         with fileinput.input(files=(input_file_path,)) as f:
-            input_lines = f.readline()
+            for line in f:
+                input_lines.append(line)
             return process_input(input_lines)
 
     except FileNotFoundError:
