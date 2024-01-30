@@ -1,3 +1,7 @@
+import sys
+import fileinput
+
+
 def file_import():
     if len(sys.argv) != 2:
         print("Usage: python script.py <path_to_input_file>")
@@ -7,10 +11,11 @@ def file_import():
 
     try:
         # Use fileinput.input() to handle both stdin and file input
+        input_lines = []
         with fileinput.input(files=(input_file_path,)) as f:
-            input_lines = f.readlines()
+            for line in f:
+                input_lines.append(line)
             return process_input(input_lines)
-
     except FileNotFoundError:
         print(f"Error: File '{input_file_path}' not found.")
         sys.exit(1)
