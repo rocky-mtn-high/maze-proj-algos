@@ -10,10 +10,10 @@ def print_hi(name):
     print(f'Hi, {name}')
 
 def main():
-    file_info = file_import() ##this is where we will import the command line file
+    # file_info = file_import() ##this is where we will import the command line file
 
     ##where file_info is a tuple containing dimensions, node_colors, start_positions, and edges
-    # file_info = test_import()
+    file_info = test_import()
     # print(file_info)
 
     # edge_color_matrix = create_edge_matrix(file_info[0], file_info[3])
@@ -39,7 +39,7 @@ def main():
         print("NO PATH")
     else:
         best = path_process(paths, start)
-        print(best)
+        # print(best)
 
 
 

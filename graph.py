@@ -32,43 +32,40 @@ def bfs_shortest_path(graph, start, target_digit):
 
     return paths
 
-def convert_to_moves(path, start):
-    r = start.split()[0]
-    l = start.split()[1]
-    moves = []
+def convert_to_moves(path):
+    moves = ""
     print(path)
     for i in range(len(path) - 1):
         if i == 0:
-            next = path[i].split()
-        current = next
-        next = path[i + 1].split()
-        ##align them
-        if (next[0] != current[0] and next[1] != current[1]) and next[0] != next[1] :
-            next.reverse()
+            next = path[0].split()
+        curr = next
+        next = path[i+1].split()
 
-
-        if current[0] == next[0]:
-            moves.append( "L" + str(next[1]))
-            # print("L moves from "+ current[1] + " to " + str(next[1]))
-        elif current[1] == next[1]:
-            moves.append("R" + str(next[0]))
-            # print("R moves from " + current[0] + " to " + str(next[0]))
-
-    # last_move = path[-1].split()
-    # moves.append(last_move)
-
-    move_string = ""
-    for move in moves:
-        move_string = move_string + move
-    return move_string
+        if curr[0] == next[0]:
+            moves = moves + "L" + str(next[1])
+        elif curr[1] == next[1]:
+            moves = moves + "R" + str(next[0])
+        else:
+            print("This should never happen.")
+            return 0
     print(moves)
     return moves
 
 
 
+def extract_letters(code):
+    return ''.join(filter(str.isalpha, code))
+
+def custom_sort(code):
+    return extract_letters(code)
+
+
 def path_process(paths, start):
+    shortest_moves = 0
     shortest_length = min(len(path) for path in paths)
     shortest_paths = [path for path in paths if len(path) == shortest_length]
-    shortest_moves = [convert_to_moves(path, start) for path in shortest_paths]
+    shortest_moves = [convert_to_moves(path) for path in shortest_paths]
     ##choose first alphabeticaly for shortest_move
-    return min(shortest_moves)
+    return(shortest_moves)
+    # sorted_codes = sorted(shortest_moves, key=custom_sort)
+    # return sorted_codes[0]
