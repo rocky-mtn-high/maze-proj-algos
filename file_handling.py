@@ -1,3 +1,7 @@
+import sys
+import fileinput
+
+
 def file_import():
     if len(sys.argv) != 2:
         print("Usage: python script.py <path_to_input_file>")
