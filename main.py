@@ -12,47 +12,43 @@ def print_hi(name):
     print(f'Hi, {name}')
 
 def main():
-    profiler = cProfile.Profile()
-    profiler.enable()
     start_time = time.time()
     # file_info = file_import() ##this is where we will import the command line file
 
     ##where file_info is a tuple containing dimensions, node_colors, start_positions, and edges
     file_info = test_import()
 
-    cp1 = time.time() - start_time
-    print("Importing and processing file: ", cp1 )
+    # cp1 = time.time() - start_time
+    # print("Importing and processing file: ", cp1 )
     # print(file_info)
 
     # edge_color_matrix = create_edge_matrix(file_info[0], file_info[3])
     # print_matrix(edge_color_matrix)
 
+
+
     occupations = gen_occupations(file_info[0])
+    # cp2 = time.time() - start_time - cp1
 
-    cp2 = time.time() - start_time - cp1
-
-    print("Generating occupations: ", cp2)
+    # print("Generating occupations: ", cp2)
     edge_color_list = file_info[3]
 
 
     mapping = create_edge_mapping(edge_color_list)
 
-    cp3 = time.time() - start_time - cp1 -cp2
-    print("Creating mapping: ", cp3)
+    # cp3 = time.time() - start_time - cp1 -cp2
+    # print("Creating mapping: ", cp3)
 
 
     # print(mapping)
     moves = gen_moves(occupations, mapping, file_info[1])
-
-    cp4 = time.time() - start_time - cp1 -cp2 - cp3
-    print("Generating moves: ", cp4)
+    # cp4 = time.time() - start_time - cp1 -cp2 - cp3
+    # print("Generating moves: ", cp4)
 
 
     g = create_graph(moves)
-    cp5 = time.time() - start_time - cp1 -cp2 - cp3 - cp4
-    profiler.disable()
-    profiler.print_stats(sort='cumulative')
-    print("Creating graph: ", cp5)
+    # cp5 = time.time() - start_time - cp1 -cp2 - cp3 - cp4
+    # print("Creating graph: ", cp5)
     # set finish condition
     start = str(file_info[2][0]) + " " + str(file_info[2][1])
     target_digit = file_info[0][0]
@@ -64,6 +60,7 @@ def main():
     else:
         best = path_process(paths, start)
         print(best)
+
 
 
 

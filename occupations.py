@@ -1,3 +1,7 @@
+import time
+import itertools
+
+
 def gen_occupations(dimensions):
     node_num = int(dimensions[0])
     occupations = []
@@ -8,8 +12,9 @@ def gen_occupations(dimensions):
     # print(occupations)
     return occupations
 
-
 def gen_moves(occup, edge_mapping, node_colors):
+    start_time = time.time()
+
     move_count = 0
     move_list = []
 
@@ -17,7 +22,14 @@ def gen_moves(occup, edge_mapping, node_colors):
     node_colors_set = set(node_colors)
     occup_set = {(item[0], item[1]) for item in occup}
 
+
+    last = 0
+
     for occup_i in occup_set:
+        # cp = time.time() - start_time - last
+        # print("One big loop: ", cp)
+
+        last = time.time() - start_time
         if num_nodes in occup_i:
             continue
 
@@ -30,6 +42,9 @@ def gen_moves(occup, edge_mapping, node_colors):
                 continue
 
             if fr == num_nodes or shared == num_nodes:
+                continue
+
+            if (str(fr), str(to)) not in edge_mapping:
                 continue
 
             move_color = edge_mapping.get((str(fr), str(to)))
@@ -45,7 +60,11 @@ def gen_moves(occup, edge_mapping, node_colors):
             move_count += 1
             move_list.append([occup_i, occup_j])
 
+    print("Total loop time:", time.time() - start_time )
     return move_list
+
+
+
 # def gen_moves(occup, edge_mapping, node_colors):
 #     move_count = 0
 #     move_list = []
