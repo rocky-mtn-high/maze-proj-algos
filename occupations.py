@@ -8,57 +8,79 @@ def gen_occupations(dimensions):
     # print(occupations)
     return occupations
 
+
 def gen_moves(occup, edge_mapping, node_colors):
     move_count = 0
     move_list = []
-    # print(node_colors)
-    # print_matrix(edge_matrix)
-    for i in range(len(occup)):
-        for j in range(len(occup)):
-            if occup[i] == occup[j]:
-                continue
-            # print(occup[i], occup[j])
-            if occup[i][0] == occup[j][0]:
-                shared = occup[i][0]
-                fr = occup[i][1]
-                to = occup[j][1]
-                # print("shared: " + str(shared))
-                # print("From/to: " + str(fr) + " " + str(to))
 
-            elif occup[i][1] == occup[j][1]:
-                shared = occup[i][1]
-                fr = occup[i][0]
-                to = occup[j][0]
+    num_nodes = len(node_colors) + 1
+    node_colors_set = set(node_colors)
+    occup_set = {(item[0], item[1]) for item in occup}
+
+    for occup_i in occup_set:
+        if num_nodes in occup_i:
+            continue
+
+        for occup_j in occup_set - {occup_i}:
+            if occup_i[0] == occup_j[0]:
+                shared, fr, to = occup_i[0], occup_i[1], occup_j[1]
+            elif occup_i[1] == occup_j[1]:
+                shared, fr, to = occup_i[1], occup_i[0], occup_j[0]
             else:
                 continue
 
-
-
-
-            move_color = edge_mapping.get((str(fr), str(to)), None)
-            # print(str(fr), str(to),  move_color)
-            if fr == len(node_colors) + 1:
-                continue
-            if move_color == None:
-                # print("No edge from " + str(fr) + " to " + str(to) )
+            if fr == num_nodes or shared == num_nodes:
                 continue
 
-            if shared == len(node_colors) + 1:
+            move_color = edge_mapping.get((str(fr), str(to)))
+
+            if move_color is None:
                 continue
+
             node_color = node_colors[shared - 1]
-            # print("Node " + str(shared) + ": " + node_color)
-
 
             if move_color != node_color:
-                # print(shared)
-                # print("The edge from " + str(fr) + " to " + str(to) + " is color " + move_color + " when it should be " + node_color)
                 continue
 
             move_count += 1
-            move_list.append([occup[i], occup[j]])
-    # print("total valid moves = " + str(move_count))
-    # print(move_list)
+            move_list.append([occup_i, occup_j])
+
     return move_list
+# def gen_moves(occup, edge_mapping, node_colors):
+#     move_count = 0
+#     move_list = []
+#     node_colors_len = len(node_colors)
+#     occup_len = len(occup)
+#     # print(node_colors)
+#     # print_matrix(edge_matrix)
+#     for i in range(occup_len):
+#         for j in range(occup_len):
+#             occup_i, occup_j = occup[i], occup[j]
+#             if occup_i[0] == occup_j[0]:
+#                 shared, fr, to = occup_i[0], occup_i[1], occup_j[1]
+#             elif occup_i[1] == occup_j[1]:
+#                 shared, fr, to = occup_i[1], occup_i[0], occup_j[0]
+#             else:
+#                 continue
+#             if fr == node_colors_len + 1:
+#                 continue
+#             move_color = edge_mapping.get((str(fr), str(to)))
+#
+#             if move_color is None or shared == node_colors_len + 1:
+#                 continue
+#             node_color = node_colors[shared - 1]
+#             # print("Node " + str(shared) + ": " + node_color)
+#
+#             if move_color != node_color:
+#                 # print(shared)
+#                 # print("The edge from " + str(fr) + " to " + str(to) + " is color " + move_color + " when it should be " + node_color)
+#                 continue
+#
+#             move_count += 1
+#             move_list.append([occup_i, occup_j])
+#     # print("total valid moves = " + str(move_count))
+#     # print(move_list)
+#     return move_list
 
 def create_edge_mapping(edge_list):
     mapping = {}
