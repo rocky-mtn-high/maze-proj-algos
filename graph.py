@@ -14,22 +14,12 @@ def create_graph(moves):
     return G
 
 def bfs_shortest_path(graph, start, target):
-    # print(graph.edges())
-    start = (start[0] + " " + start[1])
     paths = []
     for node in graph.nodes():
-        if str(target) in node:
-            try:
-                p = all_shortest_paths(graph, start, node)
-                paths_list = list(p)
-                # print(paths_list)
-                for path in paths_list:
-                    paths.append(path)
-            except nx.NetworkXNoPath:
-                x = 0
-                # print(f"No path from {start} to {node}")
-
-
+        if target in node:
+            if start in graph and nx.has_path(graph, start, node):
+                shortest_paths = nx.all_shortest_paths(graph, source=start, target=node)
+                paths.extend(shortest_paths)
     return paths
 
 
@@ -55,9 +45,9 @@ def convert_to_moves(path):
     moves = ""
     for i in range(len(path) - 1):
         if i == 0:
-            next = path[0].split()
+            next = path[0]
         curr = next
-        next = path[i+1].split()
+        next = path[i+1]
 
         if curr[0] == next[0]:
             moves = moves + "L" + str(next[1])
