@@ -13,10 +13,10 @@ def print_hi(name):
 
 def main():
     start_time = time.time()
-    # file_info = file_import() ##this is where we will import the command line file
+    file_info = file_import() ##this is where we will import the command line file
 
     ##where file_info is a tuple containing dimensions, node_colors, start_positions, and edges
-    file_info = test_import()
+    # file_info = test_import()
 
     # cp1 = time.time() - start_time
     # print("Importing and processing file: ", cp1 )
