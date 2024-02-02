@@ -59,7 +59,8 @@ def gen_moves(occup, edge_mapping, node_colors):
 
             move_count += 1
             move_list.append([occup_i, occup_j])
-
+    print(move_list)
+    print(move_count)
     print("Total loop time:", time.time() - start_time )
     return move_list
 

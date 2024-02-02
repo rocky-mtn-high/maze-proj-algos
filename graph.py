@@ -14,6 +14,8 @@ def create_graph(moves):
     return G
 
 def bfs_shortest_path(graph, start, target):
+    # print(graph.edges())
+    start = (start[0] + " " + start[1])
     paths = []
     for node in graph.nodes():
         if str(target) in node:
