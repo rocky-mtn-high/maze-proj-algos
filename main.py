@@ -59,6 +59,8 @@ def main():
     edges = file_info[3]
     mapping = {}
     node_num = len(nodes)
+    mapping = {}
+    node_num = len(nodes)
     for edge in edges:
         fr = edge[0]
         to = edge[1]
@@ -72,8 +74,7 @@ def main():
             if node_color == e_color:
                 mapping[(fr, to)].append(i + 1)
 
-
-    #create graph as we discover edges
+    # create graph as we discover edges
 
     G = nx.DiGraph()
 
@@ -87,6 +88,7 @@ def main():
             G.add_edge((int(key[0]), fr), (int(key[1]), fr))
             G.add_edge((fr, int(key[0])), (fr, int(key[1])))
     # print(G.edges())
+    # print(G.edges())
 
     #now we search
     target_digit = int(file_info[0][0])
@@ -97,9 +99,9 @@ def main():
     else:
         best = path_process(new_paths, start)
         print(best)
-
-    profiler.disable()
-    profiler.print_stats(sort='cumulative')
+    #
+    # profiler.disable()
+    # profiler.print_stats(sort='cumulative')
 
 
 # def main():
