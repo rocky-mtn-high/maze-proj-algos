@@ -49,8 +49,8 @@ def path_process(paths, start):
     return sorted_codes[0]
 
 def main():
-    profiler = cProfile.Profile()
-    profiler.enable()
+    # profiler = cProfile.Profile()
+    # profiler.enable()
 
     # file_info = test_import()
     file_info = file_import()
@@ -59,8 +59,14 @@ def main():
     edges = file_info[3]
     mapping = {}
     node_num = len(nodes)
-    mapping = {}
-    node_num = len(nodes)
+
+    G = nx.DiGraph()
+
+    start = file_info[2]
+    finish = file_info[0][0]
+    move_ct = 0
+    moves = []
+
     for edge in edges:
         fr = edge[0]
         to = edge[1]
@@ -69,26 +75,17 @@ def main():
         if (fr, to) not in mapping:
             mapping[(fr, to)] = []
 
+        valid_from = mapping[(fr, to)]
+
         for i in range(node_num):
             node_color = nodes[i]
             if node_color == e_color:
-                mapping[(fr, to)].append(i + 1)
+                valid_from.append(i + 1)
 
-    # create graph as we discover edges
+                G.add_edge((int(fr), i + 1), (int(to), i + 1))
+                G.add_edge((i + 1, int(fr)), (i + 1, int(to)))
 
-    G = nx.DiGraph()
 
-    start = file_info[2]
-    finish = file_info[0][0]
-    move_ct = 0
-    moves = []
-    for key in mapping:
-        valid_from = mapping[key]
-        for fr in valid_from:
-            G.add_edge((int(key[0]), fr), (int(key[1]), fr))
-            G.add_edge((fr, int(key[0])), (fr, int(key[1])))
-    # print(G.edges())
-    # print(G.edges())
 
     #now we search
     target_digit = int(file_info[0][0])
