@@ -52,8 +52,8 @@ def main():
     profiler = cProfile.Profile()
     profiler.enable()
 
-    file_info = test_import()
-    # file_info = file_import()
+    # file_info = test_import()
+    file_info = file_import()
 
     nodes = file_info[1]
     edges = file_info[3]
