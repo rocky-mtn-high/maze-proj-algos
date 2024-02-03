@@ -12,14 +12,48 @@ def print_hi(name):
     print(f'Hi, {name}')
 
 
+def convert_to_moves(path):
+    moves = ""
+    for i in range(len(path) - 1):
+        if i == 0:
+            next = path[0]
+        curr = next
+        next = path[i+1]
 
+        if curr[0] == next[0]:
+            moves = moves + "L" + str(next[1])
+        elif curr[1] == next[1]:
+            moves = moves + "R" + str(next[0])
+        else:
+            print("This should never happen.")
+            return 0
+    # print(moves)
+    return moves
+
+
+def extract_letters(code):
+    return ''.join(filter(str.isalpha, code))
+
+def custom_sort(code):
+    return extract_letters(code)
+
+
+def path_process(paths, start):
+    shortest_length = min(len(path) for path in paths)
+    shortest_paths = [path for path in paths if len(path) == shortest_length]
+    shortest_moves = [convert_to_moves(path) for path in shortest_paths]
+    # print(shortest_moves)
+    ##choose first alphabetically for shortest_move
+    # return(shortest_moves)
+    sorted_codes = sorted(shortest_moves, key=custom_sort)
+    return sorted_codes[0]
 
 def main():
     profiler = cProfile.Profile()
     profiler.enable()
 
-    file_info = test_import()
-    # file_info = file_import()
+    # file_info = test_import()
+    file_info = file_import()
 
     nodes = file_info[1]
     edges = file_info[3]
