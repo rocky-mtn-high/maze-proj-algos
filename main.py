@@ -52,8 +52,8 @@ def main():
     profiler = cProfile.Profile()
     profiler.enable()
 
-    # file_info = test_import()
-    file_info = file_import()
+    file_info = test_import()
+    # file_info = file_import()
 
     nodes = file_info[1]
     edges = file_info[3]
@@ -86,7 +86,7 @@ def main():
         for fr in valid_from:
             G.add_edge((int(key[0]), fr), (int(key[1]), fr))
             G.add_edge((fr, int(key[0])), (fr, int(key[1])))
-    print(G.edges())
+    # print(G.edges())
 
     #now we search
     target_digit = int(file_info[0][0])
